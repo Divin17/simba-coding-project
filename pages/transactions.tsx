@@ -19,11 +19,11 @@ const Transactions: React.FC = () => {
       },
    ];
    return (
-      <section class='py-1 bg-blueGray-50'>
-         <div class='w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24'>
-            <div class='relative flex flex-col min-w-0 break-words bg-white w-full mb-6  m-auto rounded-lg border border-primaryBorder shadow-default py-10 px-4'>
+      <section className='py-1 bg-blueGray-50'>
+         <div className='w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24'>
+            <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-6  m-auto rounded-lg border border-primaryBorder shadow-default py-10 px-4'>
                <Heading />
-               <div class='block w-full overflow-x-auto'>
+               <div className='block w-full overflow-x-auto'>
                   <Table data={transactions} />
                </div>
             </div>

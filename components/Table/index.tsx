@@ -20,7 +20,7 @@ const Table: React.FC<Props> = (props) => {
       return <tr>{tds}</tr>;
    });
    return (
-      <table class='items-center bg-transparent w-full border-collapse '>
+      <table className='items-center bg-transparent w-full border-collapse '>
          <thead>
             <tr>{heading}</tr>
          </thead>

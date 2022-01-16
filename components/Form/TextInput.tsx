@@ -11,7 +11,7 @@ export type Props = {
    max?: number;
    required?: boolean;
    preValue?: string | number;
-   type?: 'text' | 'number' | 'password';
+   type?: 'text' | 'email' | 'number' | 'password';
 };
 
 const TextInput: React.FC<Props> = (props) => {

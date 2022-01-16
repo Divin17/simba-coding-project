@@ -18,8 +18,8 @@ const Login: React.FC = () => {
             <div className='w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16'>
                <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>Log in to SIMBA</h1>
                {/* <InputContainer> */}
-               <TextInput onChange={(e) => setEmail(e.target.value)} id='email' label='Email' name='email' errorMessage={errors.email} placeholder='Enter your email' required />
-               <TextInput onChange={(e) => setPassword(e.target.value)} id='password' label='Password' name='password' errorMessage={errors.password} placeholder='Enter your password' required />
+               <TextInput onChange={(e) => setEmail(e.target.value)} id='email' label='Email' name='email' errorMessage={errors.email} placeholder='Enter your email' type='email' required />
+               <TextInput onChange={(e) => setPassword(e.target.value)} id='password' label='Password' name='password' errorMessage={errors.password} placeholder='Enter your password' type='password' required />
                <Button isDisabled={isDisabled} onClick={handleSubmit} isLoading={isLoading} buttonText='Login' />
                <p className='text-center text-sm mt-1 '>
                   Doesn't have an account?{' '}
