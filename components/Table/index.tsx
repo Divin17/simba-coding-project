@@ -13,11 +13,12 @@ const Table: React.FC<Props> = (props) => {
    }
    let heading = headingArr.map((item) => <Th key={item}>{item}</Th>);
    let content = props.data.map((row) => {
+      const key = Math.floor(Math.random() * 1000 + 1);
       const tds = Object.values(row).map((item) => {
-         const key = Math.floor(Math.random() * 1000 + 1);
-         return <Td key={item + key}>{item}</Td>;
+         const key_2 = Math.floor(Math.random() * 1000 + 1);
+         return <Td key={item + key_2}>{item}</Td>;
       });
-      return <tr>{tds}</tr>;
+      return <tr key={key}>{tds}</tr>;
    });
    return (
       <table className='items-center bg-transparent w-full border-collapse '>

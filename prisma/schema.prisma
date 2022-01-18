@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id             Int       @id @default(autoincrement())
+  completed      Boolean   @default(false)
+  senderId       Int?
+  receiverId     Int?
+  sender         User?     @relation("sender", fields: [senderId], references: [id])
+  receiver       User?     @relation("receiver", fields: [receiverId], references: [id])
+  sourceCurrency Currency? @default(USD) @map(name: "source_currency")
+  targetCurrency Currency? @default(USD) @map(name: "target_currency")
+  exchangeRate   Decimal?  @map(name: "exchange_rate")
+  amount         Decimal?
+}
+
+model User {
+  id         Int           @id @default(autoincrement())
+  name       String?
+  email      String?       @unique
+  password   String?
+  createdAt  DateTime      @default(now()) @map(name: "created_at")
+  updatedAt  DateTime      @updatedAt @map(name: "updated_at")
+  balanceUSD Decimal?      @default(1000.0) @map(name: "usd_balance")
+  balanceEUR Decimal?      @default(0.0) @map(name: "eur_balance")
+  balanceNGN Decimal?      @default(0.0) @map(name: "ngn_balance")
+  sender     Transaction[] @relation("sender")
+  receiver   Transaction[] @relation("receiver")
+}
+
+enum Currency {
+  USD
+  EUR
+  NGN
+}
