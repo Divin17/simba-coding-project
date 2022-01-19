@@ -10,6 +10,7 @@ import InputContainer from '../components/Form/InputContainer';
 const Register: React.FC = () => {
    const [isLoading, setLoading] = useState<boolean>(false);
    const [isDisabled, setDisabled] = useState<boolean>(false);
+   const [message, setMessage] = useState<object>(null);
    let initialValues = {
       name: '',
       email: '',
@@ -29,23 +30,35 @@ const Register: React.FC = () => {
             email: values.email,
             password: values.password,
          };
-         await fetch('api/auth/register', {
+         result = await axios.post('api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
          });
-         Router.push('/login');
+         console.log('Data', result.response);
+         if (result.status == 200) Router.push('/login');
+         if (result.status == 422) {
+            alert('User already exists!');
+            setMessage({ status: false, message: 'User already exists!' });
+         }
+         if (result.status == 400) {
+            alert('Action failed. Try again!');
+            setMessage({ status: false, message: 'Action failed. Try again!' });
+         }
+         setLoading(false);
       } catch (error) {
          setLoading(false);
          console.error(error);
       }
    };
+   console.log('msgg', !!message);
+
    return (
       <>
          <div className='h-screen flex bg-gray-bg1'>
             <div className='w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16'>
                <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>Register to SIMBA</h1>
-               {/* <InputContainer> */}
+               {/* <p className='text-red-500'>hello {!!message ?? message.message}</p> */}
                <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize validationSchema={insertingValidationSchema}>
                   {({ values, handleChange, handleSubmit, setFieldValue, touched, handleBlur, errors }) => (
                      <form onSubmit={handleSubmit}>
@@ -62,7 +75,6 @@ const Register: React.FC = () => {
                      <a className='underline hover:text-green-500'>Login</a>
                   </Link>
                </p>
-               {/* </InputContainer> */}
             </div>
          </div>
       </>

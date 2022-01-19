@@ -14,7 +14,7 @@ export default async function signUp(req, res) {
          });
          console.log('user', userExists);
          if (userExists) {
-            return res.status(400).json({
+            return res.status(422).json({
                status: false,
                error: 'User account already exists!',
                data: {},
@@ -40,7 +40,7 @@ export default async function signUp(req, res) {
             status: true,
             message: 'User registration succeeded',
             token,
-            data: user,
+            data: {},
          });
       } catch (error) {
          console.log('Error', error);

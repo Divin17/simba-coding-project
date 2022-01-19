@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
+import Router from 'next/router';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../components/Form/TextInput';
@@ -24,8 +26,23 @@ const Login: React.FC = () => {
 
       try {
          setLoading(true);
-         const body = {};
-      } catch (error) {}
+         const body = {
+            email: values.email,
+            password: values.password,
+         };
+         const result = await axios.post('api/auth/login', body);
+         console.log('res', result);
+         if (result.status === 200) {
+            localStorage.setItem('token', result.data.token);
+            localStorage.setItem('user', JSON.stringify(result.data.data));
+            Router.push('/transactions');
+         } else {
+            alert('Invalid credentials');
+         }
+      } catch (error) {
+         console.log(error);
+         setLoading(false);
+      }
    };
    return (
       <>
