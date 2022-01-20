@@ -3,7 +3,7 @@ import Th from './Th';
 import Td from './Td';
 
 type Props = {
-   data: object;
+   data: [];
 };
 
 const Table: React.FC<Props> = (props) => {
@@ -13,13 +13,27 @@ const Table: React.FC<Props> = (props) => {
    }
    let heading = headingArr.map((item) => <Th key={item}>{item}</Th>);
    let content = props.data.map((row) => {
+      const receiver = row.receiver.name;
       const key = Math.floor(Math.random() * 1000 + 1);
-      const tds = Object.values(row).map((item) => {
-         const key_2 = Math.floor(Math.random() * 1000 + 1);
-         return <Td key={item + key_2}>{item}</Td>;
+      delete row.id;
+      delete row.senderId;
+      delete row.receiverId;
+      delete row.completed;
+      const tds = Object.keys(row).map((item) => {
+         const code = Math.floor(Math.random() * 1000 + 1);
+         if (item === 'receiver') return <Td key={item + code}>{Boolean(receiver) ? receiver : 'N/A'}</Td>;
+         if (item === 'amount')
+            return (
+               <Td key={item + code} class={parseFloat(row[item]) > 0 ? 'text-green-500' : 'text-red-500'}>
+                  {Boolean(row[item]) ? row[item] : 'N/A'}&nbsp;
+                  {parseFloat(row[item]) > 0 ? row.targetCurrency : row.sourceCurrency}
+               </Td>
+            );
+         return <Td key={item + code}>{Boolean(row[item]) ? row[item] : 'N/A'}</Td>;
       });
       return <tr key={key}>{tds}</tr>;
    });
+
    return (
       <table className='items-center bg-transparent w-full border-collapse '>
          <thead>

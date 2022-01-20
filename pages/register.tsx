@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import TextInput from '../components/Form/TextInput';
 import Button from '../components/Form/Button';
 import InputContainer from '../components/Form/InputContainer';
@@ -30,28 +31,24 @@ const Register: React.FC = () => {
             email: values.email,
             password: values.password,
          };
-         result = await axios.post('api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-         });
-         console.log('Data', result.response);
-         if (result.status == 200) Router.push('/login');
-         if (result.status == 422) {
-            alert('User already exists!');
-            setMessage({ status: false, message: 'User already exists!' });
-         }
-         if (result.status == 400) {
-            alert('Action failed. Try again!');
-            setMessage({ status: false, message: 'Action failed. Try again!' });
-         }
-         setLoading(false);
+         let result = await axios
+            .post('api/auth/register', {
+               name: values.name,
+               email: values.email,
+               password: values.password,
+            })
+            .then((res) => {
+               Router.push('/login');
+            })
+            .catch((error) => {
+               alert(error.response.data.error);
+               setLoading(false);
+            });
       } catch (error) {
          setLoading(false);
          console.error(error);
       }
    };
-   console.log('msgg', !!message);
 
    return (
       <>

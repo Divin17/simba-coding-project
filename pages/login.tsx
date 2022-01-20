@@ -21,24 +21,19 @@ const Login: React.FC = () => {
       password: Yup.string().required().label('Password'),
    });
    const handleSubmit = async (values: object, onSubmitProps: object) => {
-      console.log('values', values);
-      console.log('onSubmitProps', onSubmitProps);
-
       try {
          setLoading(true);
-         const body = {
-            email: values.email,
-            password: values.password,
-         };
-         const result = await axios.post('api/auth/login', body);
-         console.log('res', result);
-         if (result.status === 200) {
-            localStorage.setItem('token', result.data.token);
-            localStorage.setItem('user', JSON.stringify(result.data.data));
-            Router.push('/transactions');
-         } else {
-            alert('Invalid credentials');
-         }
+         let result = await axios
+            .post('api/auth/login', { email: values.email, password: values.password })
+            .then((res) => {
+               localStorage.setItem('token', res.data.token);
+               localStorage.setItem('user', JSON.stringify(res.data.data));
+               Router.push('/transactions');
+            })
+            .catch((error) => {
+               alert(error.response.data.error);
+               setLoading(false);
+            });
       } catch (error) {
          console.log(error);
          setLoading(false);

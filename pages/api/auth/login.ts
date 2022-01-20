@@ -6,8 +6,6 @@ const login = async (req, res) => {
    if (req.method === 'POST') {
       try {
          const { email, password } = req.body;
-         console.log(req.body);
-
          const user: any = await prisma.user.findUnique({
             where: {
                email,
@@ -17,7 +15,7 @@ const login = async (req, res) => {
          if (!user || !verifyPassword) {
             return res.status(401).json({
                status: false,
-               error: 'Unauthorized',
+               error: 'Invalid credentials!',
                data: {},
             });
          }
@@ -32,7 +30,7 @@ const login = async (req, res) => {
       } catch (error) {
          return res.status(400).json({
             status: 'failed',
-            error: 'Invalid credentials',
+            error: 'Bad Request',
             data: error,
          });
       }

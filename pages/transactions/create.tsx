@@ -3,39 +3,41 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import TextInput from '../components/Form/TextInput';
-import Button from '../components/Form/Button';
-import InputContainer from '../components/Form/InputContainer';
+import TextInput from '../../components/Form/TextInput';
+import Button from '../../components/Form/Button';
+import InputContainer from '../../components/Form/InputContainer';
 
 const NewTransaction: React.FC = () => {
    const [isLoading, setLoading] = useState<boolean>(false);
    const [isDisabled, setDisabled] = useState<boolean>(false);
    const [message, setMessage] = useState<object>(null);
    let initialValues = {
-      name: '',
-      email: '',
-      password: '',
+      receiver: '',
+      sourceCurrency: '',
+      targetCurrency: '',
+      amount: '',
    };
    // All Validations
    const insertingValidationSchema = Yup.object().shape({
-      name: Yup.string().required().label('Name'),
-      email: Yup.string().email().required().label('Email'),
-      password: Yup.string().required().label('Password'),
+      receiver: Yup.string().required().label('Receiver'),
+      sourceCurrency: Yup.string().email().required().label('Source Currency'),
+      targetCurrency: Yup.string().email().required().label('Target Currency'),
+      amount: Yup.string().required().label('Amount'),
    });
    const handleSubmit = async (values: object, onSubmitProps: object) => {
       try {
          setLoading(true);
          const body = {
-            name: values.name,
-            email: values.email,
-            password: values.password,
+            receiver: values.receiver,
+            sourceCurrency: values.sourceCurrency,
+            targetCurrency: values.targetCurrency,
+            amount: values.amount,
          };
          result = await axios.post('api/transactions/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
          });
-         console.log('Data', result.response);
          if (result.status == 200) Router.push('/transactions');
          if (result.status == 422) {
             alert('Invalid inputs');
@@ -51,30 +53,26 @@ const NewTransaction: React.FC = () => {
          console.error(error);
       }
    };
-   console.log('msgg', !!message);
 
    return (
       <>
          <div className='h-screen flex bg-gray-bg1'>
-            <div className='w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16'>
-               <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>NewTransaction to SIMBA</h1>
+            <div className='w-full max-w-xl m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-8'>
+               <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>New Transaction</h1>
                {/* <p className='text-red-500'>hello {!!message ?? message.message}</p> */}
                <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize validationSchema={insertingValidationSchema}>
                   {({ values, handleChange, handleSubmit, setFieldValue, touched, handleBlur, errors }) => (
                      <form onSubmit={handleSubmit}>
-                        <TextInput onChange={handleChange('name')} onBlur={handleBlur('name')} id='name' label='name' name='name' errorMessage={errors.name} value={values.name} placeholder='Enter your name' type='text' touched={touched.name} />
-                        <TextInput onChange={handleChange('email')} onBlur={handleBlur('email')} id='email' label='Email' name='email' errorMessage={errors.email} value={values.email} placeholder='Enter your email' type='text' touched={touched.email} />
-                        <TextInput onChange={handleChange('password')} onBlur={handleBlur('password')} id='password' label='Password' name='password' errorMessage={errors.password} value={values.password} placeholder='Enter your password' type='password' touched={touched.password} />
-                        <Button isDisabled={isDisabled} isLoading={isLoading} buttonText='NewTransaction' />
+                        <TextInput onChange={handleChange('receiver')} onBlur={handleBlur('receiver')} name='receiver' label='Receiver' receiver='receiver' errorMessage={errors.receiver} value={values.receiver} placeholder='Receiver' type='select' config='' touched={touched.receiver} />
+                        <div className='flex sm:flex-row flex-col sm:gap-6 gap-0'>
+                           <TextInput onChange={handleChange('sourceCurrency')} onBlur={handleBlur('sourceCurrency')} name='sourceCurrency' label='Source Currency' sourceCurrency='sourceCurrency' errorMessage={errors.sourceCurrency} value={values.sourceCurrency} placeholder='Source Currency' type='select' touched={touched.sourceCurrency} config='' />
+                           <TextInput onChange={handleChange('targetCurrency')} onBlur={handleBlur('targetCurrency')} name='targetCurrency' label='Target Currency' targetCurrency='targetCurrency' errorMessage={errors.targetCurrency} value={values.targetCurrency} placeholder='Target Currency' type='select' touched={touched.targetCurrency} config='' />
+                        </div>
+                        <TextInput onChange={handleChange('amount')} onBlur={handleBlur('amount')} name='amount' label='Amount' errorMessage={errors.amount} value={values.amount} placeholder='Amount' type='text' touched={touched.amount} />
+                        <Button isDisabled={isDisabled} isLoading={isLoading} buttonText='Send' />
                      </form>
                   )}
                </Formik>
-               <p className='text-center text-sm mt-1 '>
-                  Already have an account?
-                  <Link href='/login'>
-                     <a className='underline hover:text-green-500'>Login</a>
-                  </Link>
-               </p>
             </div>
          </div>
       </>
