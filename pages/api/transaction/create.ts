@@ -7,7 +7,6 @@ export default async function signUp(req, res) {
       try {
          const { receiverId, amount, source_currency, target_currency, senderId } = req.body;
 
-         console.log('Before Check**********************', senderId);
          if (!receiverId || amount < 1 || !senderId) {
             return res.status(400).json({
                status: false,
@@ -15,7 +14,6 @@ export default async function signUp(req, res) {
                data: {},
             });
          }
-         console.log('After check*************');
          if (receiverId === senderId) {
             return res.status(400).json({
                status: false,
@@ -28,13 +26,11 @@ export default async function signUp(req, res) {
                id: receiverId,
             },
          });
-         console.log('After check receiver*************', receiver, senderId);
          const sender: any = await prisma.user.findUnique({
             where: {
                id: senderId,
             },
          });
-         console.log('After check sender*************', sender);
          const sender_money_acc = `balance${source_currency}`;
          let rate = 1;
          if (source_currency === target_currency) rate = 1;
@@ -44,11 +40,8 @@ export default async function signUp(req, res) {
          if (source_currency === 'NGN' && target_currency === 'EUR') rate = 0.0047;
          if (source_currency === 'EUR' && target_currency === 'USD') rate = 1.78;
          if (source_currency === 'EUR' && target_currency === 'NGN') rate = 628.85;
-         console.log('After check*************', sender_money_acc);
          const receiver_money_acc = `balance${target_currency}`;
-         console.log('After check*************', receiver_money_acc, rate);
          const transaction_amount = amount * rate;
-         console.log('After check*************', transaction_amount);
          if (sender[sender_money_acc] < amount) {
             return res.status(400).json({
                status: 'failed',
@@ -56,18 +49,8 @@ export default async function signUp(req, res) {
                data: {},
             });
          }
-         console.log('BEFORe INsert!!!!!!!!!!!!!!!!!!!', {
-            senderId: senderId,
-            receiverId: receiverId,
-            sourceCurrency: source_currency,
-            targetCurrency: target_currency,
-            amount: amount,
-            exchangeRate: rate,
-         });
-
          const new_sender_balance = sender[sender_money_acc] - amount;
          const new_receiver_balance = Number.parseInt(receiver[receiver_money_acc]) + transaction_amount;
-         console.log('Balances', sender_money_acc, new_sender_balance, receiver_money_acc, new_receiver_balance);
          const transaction = await prisma.transaction.create({
             data: {
                senderId: senderId,
