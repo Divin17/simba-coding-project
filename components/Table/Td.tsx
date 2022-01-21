@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 type Props = {
-   class: Object;
+   class?: Object;
    children: ReactNode;
 };
 const Td: React.FC<Props> = (props) => {
