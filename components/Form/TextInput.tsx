@@ -14,7 +14,7 @@ export type Props = {
    touched?: boolean;
    preValue?: string | number;
    type: string;
-   options: Object[];
+   options: any[];
 };
 
 const TextInput: React.FC<Props> = (props) => {
