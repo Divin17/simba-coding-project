@@ -23,7 +23,7 @@ const Login: React.FC = () => {
       const user = JSON.parse(localStorage.getItem('user'));
       Boolean(user) ? Router.push('/transactions') : Router.push('/login');
    }, []);
-   const handleSubmit = async (values: object, onSubmitProps: object) => {
+   const handleSubmit = async (values: any, onSubmitProps: object) => {
       try {
          setLoading(true);
          let result = await axios
