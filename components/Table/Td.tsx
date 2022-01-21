@@ -1,6 +1,7 @@
 import React from 'react';
 
 type Props = {
+   class: Object;
    children: ReactNode;
 };
 const Td: React.FC<Props> = (props) => {

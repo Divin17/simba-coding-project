@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Props = {
-   class: string;
+   class: Object;
 };
 const Spinner: React.FC<Props> = (props) => {
    return (
