@@ -43,7 +43,7 @@ const TextInput: React.FC<Props> = (props) => {
          break;
 
       default:
-         inputElement = <input className={`appearance-none border ${props.errorMessage && props.touched && 'border-red-500'} w-full rounded py-2 px-3 mb-2 text-gray-700`} name={props.name} type={props.type} onChange={props.onChange} onBlur={props.onBlur} defaultValue={props.preValuealue} maxLength={props.max} id={props.id} placeholder={props.placeholder ?? ''} />;
+         inputElement = <input className={`appearance-none border ${props.errorMessage && props.touched && 'border-red-500'} w-full rounded py-2 px-3 mb-2 text-gray-700`} name={props.name} type={props.type} onChange={props.onChange} onBlur={props.onBlur} defaultValue={props.preValue} maxLength={props.max} id={props.id} placeholder={props.placeholder ?? ''} />;
          break;
    }
    return (
