@@ -4,7 +4,7 @@ import Td from './Td';
 import Moment from 'react-moment';
 
 type Props = {
-   data: [];
+   data: Object[];
 };
 
 const Table: React.FC<Props> = (props) => {
