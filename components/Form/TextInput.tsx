@@ -10,6 +10,7 @@ export type Props = {
    placeholder: string;
    max?: number;
    required?: boolean;
+   touched?: boolean;
    preValue?: string | number;
    type: string;
 };
