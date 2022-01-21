@@ -9,6 +9,11 @@ const getTransactions = async (req: NextApiRequest, res: NextApiResponse) => {
             where: {
                receiverId: Number(id),
             },
+            orderBy: [
+               {
+                  createdAt: 'desc',
+               },
+            ],
             include: {
                sender: {
                   select: {

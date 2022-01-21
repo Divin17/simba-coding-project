@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
 import axios from 'axios';
+import Router from 'next/router';
 import Footer from '../../components/Layout/Footer';
 import NavBar from '../../components/Layout/NavBar';
 import Card from '../../components/Layout/Card';
@@ -13,6 +13,10 @@ const Transactions: React.FC = () => {
    const [user, setUser] = useState<object>(null);
    useEffect(() => {
       const currentUser = JSON.parse(localStorage.getItem('user'));
+      if (!Boolean(currentUser)) {
+         Router.push('/login');
+         return;
+      }
       const token = localStorage.getItem('token');
       const getTransactions = async (id: number) => {
          const res = await axios.get(`/api/transaction/${id}`);
@@ -30,9 +34,9 @@ const Transactions: React.FC = () => {
    return (
       <section className='pb-1 bg-blueGray-50'>
          <NavBar />
-         <div className='w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24'>
+         <div className='w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-10'>
             {Boolean(user) ? (
-               <div className='flex flex-row gap-4 space-around mb-3'>
+               <div className='flex flex-row gap-4 space-around mb-4'>
                   <Card name='NGN' balance={user.balanceNGN} path='/images/nigeria.png' />
                   <Card name='EUR' balance={user.balanceEUR} path='/images/eur.png' />
                   <Card name='USD' balance={user.balanceUSD} path='/images/usa.png' />

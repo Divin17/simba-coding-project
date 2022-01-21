@@ -44,6 +44,10 @@ const NewTransaction: React.FC = () => {
    });
    useEffect(() => {
       const user = JSON.parse(localStorage.getItem('user'));
+      if (!Boolean(user)) {
+         Router.push('/login');
+         return;
+      }
       const token = localStorage.getItem('token');
       const getUsers = async (id: number) => {
          const res = await axios.get(`/api/user/${id}`);
@@ -83,7 +87,7 @@ const NewTransaction: React.FC = () => {
             <NavBar />
             <div className='flex bg-gray-bg1'>
                <div className='w-full max-w-xl mt-24 mx-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-8'>
-                  <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>New Transaction</h1>
+                  <h1 className='text-2xl font-medium text-primary mt-4 mb-8 text-center'>New Transaction</h1>
                   {/* <p className='text-red-500'>hello {!!message ?? message.message}</p> */}
                   <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize validationSchema={insertingValidationSchema}>
                      {({ values, handleChange, handleSubmit, setFieldValue, touched, handleBlur, errors }) => (

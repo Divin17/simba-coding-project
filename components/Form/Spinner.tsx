@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Spinner: React.FC = (props) => {
+export type Props = {
+   class: string;
+};
+const Spinner: React.FC<Props> = (props) => {
    return (
-      <div className='px-32'>
+      <div className='flex justify-center'>
          <div style={{ borderTopColor: 'transparent' }} className={`content-center ${props.class} animate-spin`}></div>
       </div>
    );

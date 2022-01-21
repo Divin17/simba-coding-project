@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -20,6 +20,10 @@ const Login: React.FC = () => {
       email: Yup.string().email().required().label('Email'),
       password: Yup.string().required().label('Password'),
    });
+   useEffect(() => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      Boolean(user) ? Router.push('/transactions') : Router.push('/login');
+   }, []);
    const handleSubmit = async (values: object, onSubmitProps: object) => {
       try {
          setLoading(true);

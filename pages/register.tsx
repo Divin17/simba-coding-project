@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { Formik } from 'formik';
@@ -23,6 +23,10 @@ const Register: React.FC = () => {
       email: Yup.string().email().required().label('Email'),
       password: Yup.string().required().label('Password'),
    });
+   useEffect(() => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      Boolean(user) ? Router.push('/transactions') : null;
+   }, []);
    const handleSubmit = async (values: object, onSubmitProps: object) => {
       try {
          setLoading(true);

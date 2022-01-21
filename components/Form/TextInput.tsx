@@ -44,10 +44,10 @@ const TextInput: React.FC<Props> = (props) => {
          break;
    }
    return (
-      <div className='w-full'>
+      <div className='w-full mb-1'>
          <label className='block text-black text-sm font-bold mb-2'>{props.label}</label>
          {inputElement}
-         <p className={`${props.errorMessage && props.touched && 'text-red-500'} text-xs`}>{props.touched && !!props.errorMessage && props.errorMessage}</p>
+         {props.touched && !!props.errorMessage && <p className={`${props.errorMessage && props.touched && 'text-red-500'} text-xs`}>{props.errorMessage}</p>}
       </div>
    );
 };

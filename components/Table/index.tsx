@@ -1,6 +1,7 @@
 import React from 'react';
 import Th from './Th';
 import Td from './Td';
+import Moment from 'react-moment';
 
 type Props = {
    data: [];
@@ -24,6 +25,8 @@ const Table: React.FC<Props> = (props) => {
          const code = Math.floor(Math.random() * 1000 + 1);
          if (item === 'receiver') return <Td key={item + code}>{Boolean(receiver) ? receiver : 'N/A'}</Td>;
          if (item === 'sender') return <Td key={item + code}>{Boolean(sender) ? sender : 'N/A'}</Td>;
+         if (item === 'createdAt') return <Td key={item + code}>{Boolean(row[item]) ? <Moment format='ddd, Do MMM YYYY'>{row[item]}</Moment> : 'N/A'}</Td>;
+         if (item === 'updatedAt') return <Td key={item + code}>{Boolean(row[item]) ? <Moment format='ddd, Do MMM YYYY'>{row[item]}</Moment> : 'N/A'}</Td>;
          if (item === 'completed')
             return (
                <Td key={item + code}>
