@@ -20,17 +20,15 @@ const TextInput: React.FC<Props> = (props) => {
       case 'select':
          inputElement = (
             <div className='relative'>
-               <select className={`appearance-none border ${props.errorMessage && props.touched && 'border-red-500'} w-full rounded py-3 px-3 mb-2 text-gray-700  bg-white border pr-8 leading-tight`} name={props.name} onChange={props.onChange} onBlur={props.onBlur}>
+               <select className={`appearance-none border ${props.errorMessage && props.touched && 'border-red-500'} w-full rounded py-3 px-3 mb-2 text-gray-700  bg-white border pr-8 leading-tight focus:border-black`} name={props.name} onChange={props.onChange} onBlur={props.onBlur}>
                   <option>Select {props.label}</option>
-                  <option>New Mexico</option>
-                  <option>Missouri</option>
-                  <option>Texas</option>
-                  {!!props.config ??
-                     props.config.options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                           {option.displayValue}
-                        </option>
-                     ))}
+                  {Boolean(props.options)
+                     ? props.options.map((option) => (
+                          <option key={option.id} value={option.id}>
+                             {option.name}
+                          </option>
+                       ))
+                     : null}
                </select>
                <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
                   <svg className='fill-current h-4 w-4' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'>

@@ -8,25 +8,34 @@ type Props = {
 
 const Table: React.FC<Props> = (props) => {
    let headingArr = [];
+   const id = JSON.parse(localStorage.getItem('user')).id;
    for (let key in props.data[0]) {
       if (key != 'id' && key != 'enabled') headingArr.push(key);
    }
    let heading = headingArr.map((item) => <Th key={item}>{item}</Th>);
    let content = props.data.map((row) => {
-      const receiver = row.receiver.name;
+      const receiver = row.receiver.id == id ? 'You' : row.receiver.name;
+      const sender = Boolean(row.sender) ? (row.sender.id == id ? 'You' : row.sender.name) : null;
       const key = Math.floor(Math.random() * 1000 + 1);
       delete row.id;
       delete row.senderId;
       delete row.receiverId;
-      delete row.completed;
       const tds = Object.keys(row).map((item) => {
          const code = Math.floor(Math.random() * 1000 + 1);
          if (item === 'receiver') return <Td key={item + code}>{Boolean(receiver) ? receiver : 'N/A'}</Td>;
+         if (item === 'sender') return <Td key={item + code}>{Boolean(sender) ? sender : 'N/A'}</Td>;
+         if (item === 'completed')
+            return (
+               <Td key={item + code}>
+                  <span className={`${row[item] ? 'bg-green-500' : 'bg-yellow-500'} text-white rounded-xl px-2 py-1 font-bold`}>{row[item] ? 'Completed' : 'Pending'}</span>
+               </Td>
+            );
          if (item === 'amount')
             return (
-               <Td key={item + code} class={parseFloat(row[item]) > 0 ? 'text-green-500' : 'text-red-500'}>
+               <Td key={item + code} class={row.receiver.id == id ? 'text-green-500' : 'text-red-500'}>
+                  {row.receiver.id == id ? '+' : '-'}&nbsp;
                   {Boolean(row[item]) ? row[item] : 'N/A'}&nbsp;
-                  {parseFloat(row[item]) > 0 ? row.targetCurrency : row.sourceCurrency}
+                  {row.sourceCurrency}
                </Td>
             );
          return <Td key={item + code}>{Boolean(row[item]) ? row[item] : 'N/A'}</Td>;

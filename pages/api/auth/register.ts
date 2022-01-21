@@ -28,7 +28,7 @@ export default async function signUp(req, res) {
             },
          });
          await prisma.transaction.create({
-            data: { receiverId: user.id, amount: 1000 },
+            data: { receiverId: user.id, amount: 1000, exchangeRate: 1 },
          });
          const token = encode_token(user);
          delete user.password;

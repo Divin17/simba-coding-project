@@ -3,20 +3,39 @@ import prisma from '../../../lib/prisma';
 const getTransactions = async (req: NextApiRequest, res: NextApiResponse) => {
    if (req.method === 'GET') {
       try {
-         const { id } = req.query.id;
-         const transactions = await prisma.transaction.findMany({
+         const { id } = req.query;
+
+         const received_transactions = await prisma.transaction.findMany({
             where: {
-               receiverId: { equals: id },
+               receiverId: Number(id),
             },
             include: {
                sender: {
-                  select: { name: true },
+                  select: {
+                     id: true,
+                     name: true,
+                  },
                },
                receiver: {
-                  select: { name: true },
+                  select: {
+                     id: true,
+                     name: true,
+                  },
                },
             },
          });
+
+         const sent_transactions = await prisma.transaction.findMany({
+            where: {
+               senderId: Number(id),
+            },
+            include: {
+               sender: true,
+               receiver: true,
+            },
+         });
+
+         const transactions = [...received_transactions, ...sent_transactions];
          return res.status(200).json({
             status: 'success',
             message: '',

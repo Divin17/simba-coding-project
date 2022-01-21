@@ -8,7 +8,7 @@ import Table from '../../components/Table';
 import Spinner from '/components/Form/Spinner';
 
 const Transactions: React.FC = () => {
-   const [transactions, setTransactions] = useState<object>([]);
+   const [transactions, setTransactions] = useState<object>(null);
    useEffect(() => {
       const user = JSON.parse(localStorage.getItem('user'));
       const token = localStorage.getItem('token');
@@ -24,7 +24,7 @@ const Transactions: React.FC = () => {
          <div className='w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24'>
             <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-6  m-auto rounded-lg border border-primaryBorder shadow-default py-10 px-4'>
                <Heading />
-               <div className='block w-full overflow-x-auto'>{Boolean(transactions) ? <Table data={transactions} /> : <Spinner />}</div>
+               <div className='block w-full overflow-x-auto'>{Boolean(transactions) ? <Table data={transactions} /> : <Spinner class='w-10 h-10 border-[2px] border-green-500 border-dotted rounded-full' />}</div>
             </div>
          </div>
          <Footer />
