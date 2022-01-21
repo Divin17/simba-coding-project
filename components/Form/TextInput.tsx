@@ -4,6 +4,7 @@ export type Props = {
    id: string;
    name: string;
    onChange: (event: any) => void;
+   onBlur: (event: any) => void;
    label: string;
    message: string;
    errorMessage?: string;
