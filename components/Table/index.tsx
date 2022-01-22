@@ -11,7 +11,7 @@ const Table: React.FC<Props> = (props) => {
    let headingArr = [];
    const id = JSON.parse(localStorage.getItem('user')).id;
    for (let key in props.data[0]) {
-      if (key != 'id' && key != 'enabled') headingArr.push(key);
+      if (key != 'id' && key != 'enabled' && key != 'senderId' && key != 'receiverId') headingArr.push(key);
    }
    let heading = headingArr.map((item) => <Th key={item}>{item}</Th>);
    let content = props.data.map((row) => {

@@ -29,8 +29,6 @@ const Transactions: React.FC = () => {
       getTransactions(currentUser.id);
       getCurrentUser(currentUser.id);
    }, []);
-   console.log(user);
-
    return (
       <section className='pb-1 bg-blueGray-50'>
          <NavBar />
