@@ -6,15 +6,14 @@ export type Props = {
    onChange: (event: any) => void;
    onBlur: (event: any) => void;
    label: string;
-   message: string;
-   errorMessage?: string;
+   errorMessage?: any;
    placeholder: string;
    max?: number;
    required?: boolean;
-   touched?: boolean;
+   touched?: any;
    preValue?: string | number;
    type: string;
-   options: any[];
+   options?: any;
 };
 
 const TextInput: React.FC<Props> = (props) => {

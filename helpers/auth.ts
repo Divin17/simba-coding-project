@@ -13,7 +13,7 @@ export const decode_token = (token: any) => {
    return payload;
 };
 
-export const encode_token = (payload: object) => {
+export const encode_token = (payload: any) => {
    const token = jwt.sign(payload, String(key), { expiresIn: '1d' });
    return token;
 };

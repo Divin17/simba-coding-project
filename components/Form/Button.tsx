@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 export type Props = {
    buttonText: string;
    isDisabled: boolean;
-   onClick: (event: React.FormEvent<HTMLButtonElement>) => void;
+   onClick?: (event: React.FormEvent<HTMLButtonElement>) => void;
    isLoading: boolean;
 };
 

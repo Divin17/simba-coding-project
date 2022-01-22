@@ -10,10 +10,6 @@ import Button from '../components/Form/Button';
 const Login: React.FC = () => {
    const [isLoading, setLoading] = useState<boolean>(false);
    const [isDisabled, setDisabled] = useState<boolean>(false);
-   let initialValues = {
-      email: '',
-      password: '',
-   };
    // All Validations
    const insertingValidationSchema = Yup.object().shape({
       email: Yup.string().email().required().label('Email'),
@@ -23,7 +19,7 @@ const Login: React.FC = () => {
       const user = JSON.parse(localStorage.getItem('user'));
       Boolean(user) ? Router.push('/transactions') : Router.push('/login');
    }, []);
-   const handleSubmit = async (values: any, onSubmitProps: object) => {
+   const handleSubmit = async (values: any, onSubmitProps: any) => {
       try {
          setLoading(true);
          let result = await axios
@@ -47,11 +43,18 @@ const Login: React.FC = () => {
          <div className='h-screen flex bg-gray-bg1'>
             <div className='w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16'>
                <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>Log in to SIMBA</h1>
-               <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize validationSchema={insertingValidationSchema}>
+               <Formik
+                  initialValues={{
+                     email: '',
+                     password: '',
+                  }}
+                  onSubmit={handleSubmit}
+                  enableReinitialize
+                  validationSchema={insertingValidationSchema}>
                   {({ values, handleChange, handleSubmit, setFieldValue, touched, handleBlur, errors }) => (
                      <form onSubmit={handleSubmit}>
-                        <TextInput onChange={handleChange('email')} onBlur={handleBlur('email')} id='email' label='Email' name='email' errorMessage={errors.email} value={values.email} placeholder='Enter your email' type='text' touched={touched.email} />
-                        <TextInput onChange={handleChange('password')} onBlur={handleBlur('password')} id='password' label='Password' name='password' errorMessage={errors.password} value={values.password} placeholder='Enter your password' type='password' touched={touched.password} />
+                        <TextInput onChange={handleChange('email')} onBlur={handleBlur('email')} id='email' label='Email' name='email' errorMessage={errors.email} preValue={values.email} placeholder='Enter your email' type='email' touched={touched.email} />
+                        <TextInput onChange={handleChange('password')} onBlur={handleBlur('password')} id='password' label='Password' name='password' errorMessage={errors.password} preValue={values.password} placeholder='Enter your password' type='password' touched={touched.password} />
                         <Button isDisabled={isDisabled} isLoading={isLoading} buttonText='Login' />
                      </form>
                   )}

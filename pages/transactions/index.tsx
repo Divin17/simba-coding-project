@@ -6,11 +6,11 @@ import NavBar from '../../components/Layout/NavBar';
 import Card from '../../components/Layout/Card';
 import Heading from '../../components/Table/Heading';
 import Table from '../../components/Table';
-import Spinner from '/components/Form/Spinner';
+import Spinner from '../../components/Form/Spinner';
 
 const Transactions: React.FC = () => {
-   const [transactions, setTransactions] = useState<object>(null);
-   const [user, setUser] = useState<object>(null);
+   const [transactions, setTransactions] = useState<any>(null);
+   const [user, setUser] = useState<any>(null);
    useEffect(() => {
       const currentUser = JSON.parse(localStorage.getItem('user'));
       if (!Boolean(currentUser)) {

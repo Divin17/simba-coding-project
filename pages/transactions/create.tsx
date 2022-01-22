@@ -8,14 +8,13 @@ import NavBar from '../../components/Layout/NavBar';
 import Footer from '../../components/Layout/Footer';
 import TextInput from '../../components/Form/TextInput';
 import Button from '../../components/Form/Button';
-import InputContainer from '../../components/Form/InputContainer';
 
 const NewTransaction: React.FC = () => {
    const [isLoading, setLoading] = useState<boolean>(false);
    const [isDisabled, setDisabled] = useState<boolean>(false);
-   const [message, setMessage] = useState<object>(null);
-   const [users, setUsers] = useState<object>([]);
-   const [currencies, setCurrencies] = useState<object>([
+   const [message, setMessage] = useState<any>(null);
+   const [users, setUsers] = useState<any>([]);
+   const [currencies, setCurrencies] = useState<any>([
       {
          id: 'USD',
          name: 'USD',
@@ -55,7 +54,7 @@ const NewTransaction: React.FC = () => {
       };
       getUsers(user.id);
    }, []);
-   const handleSubmit = async (values: object, onSubmitProps: object) => {
+   const handleSubmit = async (values: any, onSubmitProps: any) => {
       setLoading(true);
       try {
          const id = JSON.parse(localStorage.getItem('user')).id;
@@ -88,16 +87,15 @@ const NewTransaction: React.FC = () => {
             <div className='flex bg-gray-bg1'>
                <div className='w-full max-w-xl mt-24 mx-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-8'>
                   <h1 className='text-2xl font-medium text-primary mt-4 mb-8 text-center'>New Transaction</h1>
-                  {/* <p className='text-red-500'>hello {!!message ?? message.message}</p> */}
                   <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize validationSchema={insertingValidationSchema}>
                      {({ values, handleChange, handleSubmit, setFieldValue, touched, handleBlur, errors }) => (
                         <form onSubmit={handleSubmit}>
-                           <TextInput onChange={handleChange('receiver')} onBlur={handleBlur('receiver')} name='receiver' label='Receiver' receiver='receiver' errorMessage={errors.receiver} value={values.receiver} placeholder='Receiver' type='select' options={users} touched={touched.receiver} />
+                           <TextInput onChange={handleChange('receiver')} onBlur={handleBlur('receiver')} name='receiver' id='receiver' label='Receiver' errorMessage={errors.receiver} preValue={values.receiver} placeholder='Receiver' type='select' options={users} touched={touched.receiver} />
                            <div className='flex sm:flex-row flex-col sm:gap-6 gap-0'>
-                              <TextInput onChange={handleChange('sourceCurrency')} onBlur={handleBlur('sourceCurrency')} name='sourceCurrency' label='Source Currency' sourceCurrency='sourceCurrency' errorMessage={errors.sourceCurrency} value={values.sourceCurrency} placeholder='Source Currency' type='select' touched={touched.sourceCurrency} options={currencies} />
-                              <TextInput onChange={handleChange('targetCurrency')} onBlur={handleBlur('targetCurrency')} name='targetCurrency' label='Target Currency' targetCurrency='targetCurrency' errorMessage={errors.targetCurrency} value={values.targetCurrency} placeholder='Target Currency' type='select' touched={touched.targetCurrency} options={currencies} />
+                              <TextInput onChange={handleChange('sourceCurrency')} onBlur={handleBlur('sourceCurrency')} name='sourceCurrency' id='sourceCurrency' label='Source Currency' errorMessage={errors.sourceCurrency} preValue={values.sourceCurrency} placeholder='Source Currency' type='select' touched={touched.sourceCurrency} options={currencies} />
+                              <TextInput onChange={handleChange('targetCurrency')} onBlur={handleBlur('targetCurrency')} name='targetCurrency' id='targetCurrency' label='Target Currency' errorMessage={errors.targetCurrency} preValue={values.targetCurrency} placeholder='Target Currency' type='select' touched={touched.targetCurrency} options={currencies} />
                            </div>
-                           <TextInput onChange={handleChange('amount')} onBlur={handleBlur('amount')} name='amount' label='Amount' errorMessage={errors.amount} value={values.amount} placeholder='Amount' type='text' touched={touched.amount} />
+                           <TextInput onChange={handleChange('amount')} onBlur={handleBlur('amount')} id='amount' name='amount' label='Amount' errorMessage={errors.amount} preValue={values.amount} placeholder='Amount' type='text' touched={touched.amount} />
                            <Button isDisabled={isDisabled} isLoading={isLoading} buttonText='Send' />
                         </form>
                      )}
